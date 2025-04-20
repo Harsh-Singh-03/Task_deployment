@@ -1,0 +1,52 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../lib/generated/prisma"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  email              String   @unique
+  name               String
+  password           String
+  resetPasswordToken String?
+  columns            Column[]
+  createdAt          DateTime @default(now())
+}
+
+model Column {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  order     Int
+  tasks     Task[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum PRIORITY {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+model Task {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  order       Int
+  description String?
+  priority    PRIORITY
+  dueDate     DateTime?
+  columnId    String    @db.ObjectId
+  column      Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([columnId])
+}
