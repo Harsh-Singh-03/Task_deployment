@@ -1,5 +1,4 @@
 "use server"
-export const runtime = 'nodejs'
 
 import { db } from "@/lib/db"
 import { fetchUser } from "./user.action"
