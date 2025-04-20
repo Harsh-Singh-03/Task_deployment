@@ -110,7 +110,7 @@ export const reorderColumn = async (obj: reorderProps) => {
 export const getColumnsTasks = async (priority?: PRIORITY | null) => {
     try {
         const res = await fetchUser()
-        if (res.success === false || !res.user) return { success: false, message: 'Unauthorized session expired !!' }
+        if (res.success === false || !res.user) return { success: false, message: res?.message }
         const { user } = res
 
         let conditions: any = {}

@@ -17,7 +17,6 @@ import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 import { reorderTask } from "@/actions/task.action"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useSession } from "next-auth/react"
 
 type columnType = Column & {
     tasks: Task[]
@@ -34,13 +33,16 @@ const HomePage = () => {
         priority: null
     })
 
-    const session = useSession()
-
-    const { data: serverResponse, isPending } = useQuery({
+    const { data: serverResponse, isPending, error } = useQuery({
         queryKey: ["PAGE_CONTENT", filter.priority],
         queryFn: () => getColumnsTasks(filter.priority),
         enabled: true,
     })
+
+    useEffect(() => {
+        console.log(serverResponse)
+        console.log(error)
+    }, [serverResponse, error])
 
     useEffect(() => {
         if (serverResponse?.data) {
