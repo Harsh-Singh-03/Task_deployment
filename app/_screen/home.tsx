@@ -132,13 +132,14 @@ const HomePage = () => {
         <div className="">
             <div className="flex justify-between items-center">
                 <div className="flex-1 flex items-center gap-4">
-                    <Select value={filter?.priority || ""} onValueChange={(val: PRIORITY) => setFilter({ ...filter, priority: val })}>
+                    <Select value={filter?.priority || ""} onValueChange={(val: PRIORITY | "All") => setFilter({ ...filter, priority: val !== "All" && val ? val : null })}>
                         <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Select a priority" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
                                 <SelectLabel>Select Priority</SelectLabel>
+                                <SelectItem value={"All"}>All</SelectItem>
                                 <SelectItem value={PRIORITY.HIGH}>High</SelectItem>
                                 <SelectItem value={PRIORITY.MEDIUM}>Medium</SelectItem>
                                 <SelectItem value={PRIORITY.LOW}>Low</SelectItem>
