@@ -1,4 +1,5 @@
 "use server"
+export const runtime = 'nodejs'
 
 import { PRIORITY } from "@/lib/generated/prisma"
 import { fetchUser } from "./user.action"
