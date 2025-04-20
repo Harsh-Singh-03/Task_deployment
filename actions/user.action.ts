@@ -17,6 +17,7 @@ export const fetchUser = async () => {
         if (!user) { return { success: false, message: "session expired please relogin" } } else { return { user, success: true } }
 
     } catch (error: any) {
+        console.log(error)
         return { success: false, message: error.message }
     }
 }
