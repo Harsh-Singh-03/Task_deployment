@@ -12,16 +12,19 @@ import { toast } from "sonner"
 import { TaskDialog } from "../dialog/task-dialog"
 import { TaskCard } from "./task-card"
 import { Draggable, Droppable } from '@hello-pangea/dnd'
+import { motion } from "framer-motion"
+
 type columnType = Column & {
     tasks: Task[]
 }
 
 interface props {
     col: columnType,
-    isDragDisable: boolean
+    isDragDisable: boolean,
+    index: number
 }
 
-export const ColumnCard = ({ col, isDragDisable }: props) => {
+export const ColumnCard = ({ col, isDragDisable, index }: props) => {
 
     const queryClient = useQueryClient()
 
@@ -44,7 +47,9 @@ export const ColumnCard = ({ col, isDragDisable }: props) => {
     }
 
     return (
-        <div className="min-w-[284px]">
+        <motion.div className="min-w-[284px]" initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}>
             <div className="pb-4 flex items-center justify-between">
                 <h4 className="font-bold">{col.title}</h4>
                 <Popover>
@@ -80,7 +85,7 @@ export const ColumnCard = ({ col, isDragDisable }: props) => {
                                     <div
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
-                                        ref={provided.innerRef} 
+                                        ref={provided.innerRef}
                                     >
                                         <TaskCard key={task.id} task={task} />
                                     </div>
@@ -110,7 +115,7 @@ export const ColumnCard = ({ col, isDragDisable }: props) => {
                     Add Task
                 </Button>
             </TaskDialog>
-        </div>
+        </motion.div>
     )
 
 }
